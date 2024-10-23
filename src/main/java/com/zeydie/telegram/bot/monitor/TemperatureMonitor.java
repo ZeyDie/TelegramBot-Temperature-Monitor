@@ -26,9 +26,9 @@ public final class TemperatureMonitor implements ISubcore {
     private static final @NotNull TelegramBotCore telegramBotCore = TelegramBotCore.getInstance();
 
     @Getter
-    private IToken token = new TokenImpl();
+    private final IToken token = new TokenImpl();
     @Getter
-    private IComputer temperature = new ComputerImpl();
+    private final IComputer temperature = new ComputerImpl();
 
     @SneakyThrows
     public static void main(@Nullable final String[] args) {

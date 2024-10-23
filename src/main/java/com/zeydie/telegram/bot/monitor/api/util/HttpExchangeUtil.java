@@ -11,12 +11,12 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 public final class HttpExchangeUtil {
-    public static final @NotNull String readJson(@NonNull final HttpExchange httpExchange) throws IOException {
+    public static @NotNull String readJson(@NonNull final HttpExchange httpExchange) throws IOException {
         @NonNull val inputStream = httpExchange.getRequestBody();
 
         try (
                 @NonNull val inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-                @NonNull val bufferedReader = new BufferedReader(inputStreamReader);
+                @NonNull val bufferedReader = new BufferedReader(inputStreamReader)
         ) {
             @NonNull val stringBuilder = new StringBuilder();
 

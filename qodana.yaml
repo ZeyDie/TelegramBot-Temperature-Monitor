@@ -7,3 +7,5 @@ include:
   - name: Deprecation
   - name: ThrowablePrintStackTrace
   - name: FinalStaticMethod
+  - name: TrivialIf
+  - name: UnnecessarySemicolon

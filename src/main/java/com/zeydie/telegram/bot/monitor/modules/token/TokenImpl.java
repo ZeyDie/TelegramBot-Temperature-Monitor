@@ -111,13 +111,9 @@ public class TokenImpl implements IToken {
     @Override
     public boolean isRegistered(final long userId, @NonNull final String token) {
         try (val stream = this.usersTokens.getOrDefault(userId, Lists.newArrayList()).stream()) {
-            val data = stream.filter(tokenData -> tokenData.getToken().equals(token))
+            return stream.filter(tokenData -> tokenData.getToken().equals(token))
                     .findFirst()
-                    .orElse(null);
-
-            if (data == null) return false;
-
-            return true;
+                    .isPresent();
         }
     }
 
