@@ -21,9 +21,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.net.InetSocketAddress;
 
-public final class TemperatureMonitor implements ISubcore {
+public final class TemperatureMonitorBot implements ISubcore {
     @Getter
-    private static final @NotNull TemperatureMonitor instance = new TemperatureMonitor();
+    private static final @NotNull TemperatureMonitorBot instance = new TemperatureMonitorBot();
     @Getter
     private static final @NotNull TelegramBotCore telegramBotCore = TelegramBotCore.getInstance();
 
@@ -34,7 +34,7 @@ public final class TemperatureMonitor implements ISubcore {
 
     @SneakyThrows
     public static void main(@Nullable final String[] args) {
-        LoggerUtil.info("Starting {}...", TemperatureMonitor.class.getName());
+        LoggerUtil.info("Starting {}...", TemperatureMonitorBot.class.getName());
 
         LoggerUtil.info("Register subcore {}...", instance.getName());
         telegramBotCore.registerSubcore(instance);
@@ -85,6 +85,6 @@ public final class TemperatureMonitor implements ISubcore {
         httpServer.createContext("/api/v1/temperature", new TemperatureHttpHandler());
         httpServer.start();
 
-        LoggerUtil.info("HTTP server started on port {}", this.port);
+        LoggerUtil.warn("HTTP server started on port {}", this.port);
     }
 }

@@ -3,7 +3,7 @@ package com.zeydie.telegram.bot.monitor.handlers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.zeydie.sgson.SGsonBase;
-import com.zeydie.telegram.bot.monitor.TemperatureMonitor;
+import com.zeydie.telegram.bot.monitor.TemperatureMonitorBot;
 import com.zeydie.telegram.bot.monitor.api.data.ComputerData;
 import com.zeydie.telegram.bot.monitor.api.util.HttpExchangeUtil;
 import com.zeydie.telegram.bot.monitor.api.util.TokenUtil;
@@ -25,7 +25,7 @@ public final class TemperatureHttpHandler implements HttpHandler {
             if (!token.isEmpty()) {
                 LoggerUtil.debug(SGsonBase.create().fromObjectToJson(computerData));
 
-                @NonNull val instance = TemperatureMonitor.getInstance();
+                @NonNull val instance = TemperatureMonitorBot.getInstance();
 
                 @NonNull val encryptedData = TokenUtil.decryptToken(computerData.getToken());
 
