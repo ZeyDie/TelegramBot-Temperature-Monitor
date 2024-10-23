@@ -15,9 +15,10 @@ public final class TokenUtil {
     }
 
     public static @NotNull EncryptedData decryptToken(@NonNull final String token) {
-        return SGsonBase.create().fromJsonToObject(
-                new StandardPBEStringEncryptor().decrypt(token),
-                new EncryptedData()
-        );
+        return SGsonBase.create()
+                .fromJsonToObject(
+                        new StandardPBEStringEncryptor().decrypt(token),
+                        new EncryptedData()
+                );
     }
 }

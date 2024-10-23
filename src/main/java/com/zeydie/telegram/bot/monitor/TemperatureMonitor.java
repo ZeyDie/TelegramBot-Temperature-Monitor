@@ -12,7 +12,9 @@ import com.zeydie.telegrambot.TelegramBotCore;
 import com.zeydie.telegrambot.api.modules.interfaces.ISubcore;
 import com.zeydie.telegrambot.api.utils.LoggerUtil;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.SneakyThrows;
+import lombok.experimental.NonFinal;
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,9 +28,9 @@ public final class TemperatureMonitor implements ISubcore {
     private static final @NotNull TelegramBotCore telegramBotCore = TelegramBotCore.getInstance();
 
     @Getter
-    private final IToken token = new TokenImpl();
+    private final @NotNull IToken tokenModule = new TokenImpl();
     @Getter
-    private final IComputer temperature = new ComputerImpl();
+    private final @NotNull IComputer temperatureModule = new ComputerImpl();
 
     @SneakyThrows
     public static void main(@Nullable final String[] args) {
@@ -46,7 +48,8 @@ public final class TemperatureMonitor implements ISubcore {
         return this.getClass().getName();
     }
 
-    @Parameter(names = "-port", description = "Port for HTTP server")
+    @NonFinal
+    @Parameter(names = {"-p", "-port"}, description = "Port for HTTP server")
     private int port = 7777;
 
     @Override
@@ -59,25 +62,25 @@ public final class TemperatureMonitor implements ISubcore {
 
     @Override
     public void stop() {
-        this.token.save();
+        this.tokenModule.save();
     }
 
     @Override
     public void preInit() {
-        this.token.preInit();
+        this.tokenModule.preInit();
     }
 
     @Override
     public void init() {
-        this.token.init();
+        this.tokenModule.init();
     }
 
     @SneakyThrows
     @Override
     public void postInit() {
-        this.token.postInit();
+        this.tokenModule.postInit();
 
-        val httpServer = HttpServer.create(new InetSocketAddress(this.port), 0);
+        @NonNull val httpServer = HttpServer.create(new InetSocketAddress(this.port), 0);
 
         httpServer.createContext("/api/v1/temperature", new TemperatureHttpHandler());
         httpServer.start();

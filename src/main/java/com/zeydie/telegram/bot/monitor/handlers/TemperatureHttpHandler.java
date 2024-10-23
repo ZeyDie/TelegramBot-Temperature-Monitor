@@ -17,20 +17,20 @@ public final class TemperatureHttpHandler implements HttpHandler {
     @Override
     public void handle(@NonNull final HttpExchange httpExchange) throws IOException {
         if (httpExchange.getRequestMethod().equalsIgnoreCase("POST")) {
-            val json = HttpExchangeUtil.readJson(httpExchange);
-            val computerData = SGsonBase.create().fromJsonToObject(json, new ComputerData());
+            @NonNull val json = HttpExchangeUtil.readJson(httpExchange);
+            @NonNull val computerData = SGsonBase.create().fromJsonToObject(json, new ComputerData());
 
-            val token = computerData.getToken();
+            @NonNull val token = computerData.getToken();
 
             if (!token.isEmpty()) {
                 LoggerUtil.debug(SGsonBase.create().fromObjectToJson(computerData));
 
-                val instance = TemperatureMonitor.getInstance();
+                @NonNull val instance = TemperatureMonitor.getInstance();
 
-                val encryptedData = TokenUtil.decryptToken(computerData.getToken());
+                @NonNull val encryptedData = TokenUtil.decryptToken(computerData.getToken());
 
-                if (instance.getToken().isRegistered(encryptedData.getChatId(), token))
-                    instance.getTemperature().updateComputerData(computerData);
+                if (instance.getTokenModule().isRegistered(encryptedData.getChatId(), token))
+                    instance.getTemperatureModule().updateComputerData(computerData);
             }
         }
 
