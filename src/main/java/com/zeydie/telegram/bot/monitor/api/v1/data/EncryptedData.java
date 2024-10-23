@@ -1,4 +1,4 @@
-package com.zeydie.telegram.bot.monitor.api.data;
+package com.zeydie.telegram.bot.monitor.api.v1.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

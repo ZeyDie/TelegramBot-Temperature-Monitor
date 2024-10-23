@@ -1,7 +1,7 @@
 package com.zeydie.telegram.bot.monitor.api.util;
 
 import com.zeydie.sgson.SGsonBase;
-import com.zeydie.telegram.bot.monitor.api.data.EncryptedData;
+import com.zeydie.telegram.bot.monitor.api.v1.data.EncryptedData;
 import lombok.NonNull;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jetbrains.annotations.NotNull;

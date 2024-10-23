@@ -5,7 +5,7 @@ import com.beust.jcommander.Parameter;
 import com.sun.net.httpserver.HttpServer;
 import com.zeydie.telegram.bot.monitor.api.modules.temperature.IComputer;
 import com.zeydie.telegram.bot.monitor.api.modules.token.IToken;
-import com.zeydie.telegram.bot.monitor.handlers.TemperatureHttpHandler;
+import com.zeydie.telegram.bot.monitor.api.v1.handlers.TemperatureHttpHandlerV1;
 import com.zeydie.telegram.bot.monitor.modules.temperature.ComputerImpl;
 import com.zeydie.telegram.bot.monitor.modules.token.TokenImpl;
 import com.zeydie.telegrambot.TelegramBotCore;
@@ -24,6 +24,7 @@ import java.net.InetSocketAddress;
 public final class TemperatureMonitorBot implements ISubcore {
     @Getter
     private static final @NotNull TemperatureMonitorBot instance = new TemperatureMonitorBot();
+
     @Getter
     private static final @NotNull TelegramBotCore telegramBotCore = TelegramBotCore.getInstance();
 
@@ -50,7 +51,7 @@ public final class TemperatureMonitorBot implements ISubcore {
 
     @NonFinal
     @Parameter(names = {"-p", "-port"}, description = "Port for HTTP server")
-    private int port = 7777;
+    private int port = 3666;
 
     @Override
     public void launch(@Nullable final String[] strings) {
@@ -82,7 +83,7 @@ public final class TemperatureMonitorBot implements ISubcore {
 
         @NonNull val httpServer = HttpServer.create(new InetSocketAddress(this.port), 0);
 
-        httpServer.createContext("/api/v1/temperature", new TemperatureHttpHandler());
+        httpServer.createContext("/api/v1/temperature", new TemperatureHttpHandlerV1());
         httpServer.start();
 
         LoggerUtil.warn("HTTP server started on port {}", this.port);

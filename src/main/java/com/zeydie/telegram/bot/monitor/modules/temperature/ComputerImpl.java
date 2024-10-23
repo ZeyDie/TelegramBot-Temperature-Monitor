@@ -1,7 +1,7 @@
 package com.zeydie.telegram.bot.monitor.modules.temperature;
 
-import com.zeydie.telegram.bot.monitor.api.data.ComputerData;
 import com.zeydie.telegram.bot.monitor.api.modules.temperature.IComputer;
+import com.zeydie.telegram.bot.monitor.api.v1.data.ComputerData;
 import lombok.NonNull;
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
