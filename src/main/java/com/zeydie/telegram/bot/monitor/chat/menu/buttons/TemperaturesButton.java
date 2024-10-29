@@ -37,7 +37,7 @@ public final class TemperaturesButton extends KeyboardButton {
         else
             event.setCancelled(true);
 
-        val stringBuilder = new StringBuilder();
+        @NonNull val stringBuilder = new StringBuilder();
 
         TemperatureMonitorBot.getInstance()
                 .getComputerModule()
@@ -47,8 +47,8 @@ public final class TemperaturesButton extends KeyboardButton {
                             if (computerData == null)
                                 return;
 
-                            val cpu = computerData.getCpu();
-                            val gpu = computerData.getGpu();
+                            @Nullable val cpu = computerData.getCpu();
+                            @Nullable val gpu = computerData.getGpu();
 
                             stringBuilder.append("==========||==========").append("\n");
 
@@ -56,24 +56,30 @@ public final class TemperaturesButton extends KeyboardButton {
                                     TokenUtil.decryptToken(computerData.getToken())
                                             .getName()
                             ).append("\n").append("\n");
-                            stringBuilder.append("CPU:").append("\n");
 
-                            if (cpu.getMinInt() > 0)
-                                stringBuilder.append("  Min: ").append(cpu.getMinInt()).append("℃").append("\n");
-                            if (cpu.getAvgInt() > 0)
-                                stringBuilder.append("  AVG: ").append(cpu.getAvgInt()).append("℃").append("\n");
-                            if (cpu.getMaxInt() > 0)
-                                stringBuilder.append("  Max: ").append(cpu.getMaxInt()).append("℃").append("\n");
+                            if (cpu != null) {
+                                stringBuilder.append("CPU:").append("\n");
 
-                            stringBuilder.append("\n");
-                            stringBuilder.append("GPU:").append("\n");
+                                if (cpu.getMinInt() > 0)
+                                    stringBuilder.append("  Min: ").append(cpu.getMinInt()).append("℃").append("\n");
+                                if (cpu.getAvgInt() > 0)
+                                    stringBuilder.append("  AVG: ").append(cpu.getAvgInt()).append("℃").append("\n");
+                                if (cpu.getMaxInt() > 0)
+                                    stringBuilder.append("  Max: ").append(cpu.getMaxInt()).append("℃").append("\n");
 
-                            if (gpu.getMinInt() > 0)
-                                stringBuilder.append("  Min: ").append(gpu.getMinInt()).append("℃").append("\n");
-                            if (gpu.getAvgInt() > 0)
-                                stringBuilder.append("  AVG: ").append(gpu.getAvgInt()).append("℃").append("\n");
-                            if (gpu.getMaxInt() > 0)
-                                stringBuilder.append("  Max: ").append(gpu.getMaxInt()).append("℃").append("\n");
+                                stringBuilder.append("\n");
+                            }
+
+                            if (gpu != null) {
+                                stringBuilder.append("GPU:").append("\n");
+
+                                if (gpu.getMinInt() > 0)
+                                    stringBuilder.append("  Min: ").append(gpu.getMinInt()).append("℃").append("\n");
+                                if (gpu.getAvgInt() > 0)
+                                    stringBuilder.append("  AVG: ").append(gpu.getAvgInt()).append("℃").append("\n");
+                                if (gpu.getMaxInt() > 0)
+                                    stringBuilder.append("  Max: ").append(gpu.getMaxInt()).append("℃").append("\n");
+                            }
 
                             stringBuilder.append("==========||==========");
 

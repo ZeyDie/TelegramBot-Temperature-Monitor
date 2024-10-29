@@ -55,11 +55,11 @@ public final class AddButton extends KeyboardButton {
         val senderId = event.getSender().id();
         @Nullable val data = event.getMessage().text();
 
-        if (ComputerRegistry.isRegistry(senderId)) {
+        if (data != null && ComputerRegistry.isRegistry(senderId)) {
             event.setCancelled(true);
 
-            val tokenModule = TemperatureMonitorBot.getInstance().getTokenModule();
-            val encryptedToken = TokenUtil.encryptToken(data, senderId);
+            @NonNull val tokenModule = TemperatureMonitorBot.getInstance().getTokenModule();
+            @NonNull val encryptedToken = TokenUtil.encryptToken(data, senderId);
 
             if (tokenModule.getRegisteredTokens(senderId).size() >= ConfigStore.monitorConfig.getMaxMonitorsUsers() + 1) {
                 SendMessageUtil.sendMessage(

@@ -33,7 +33,7 @@ public class ComputerImpl implements IComputer {
 
     @Override
     public void addComputerData(@NonNull final ComputerData computerData) {
-        val token = computerData.getToken();
+        @NonNull val token = computerData.getToken();
 
         if (!this.tokenComputers.containsKey(token))
             this.tokenComputers.put(token, computerData);
@@ -41,11 +41,11 @@ public class ComputerImpl implements IComputer {
 
     @Override
     public void updateComputerData(@NonNull final ComputerData computerData) {
-        val token = computerData.getToken();
+        @NonNull val token = computerData.getToken();
 
         this.addComputerData(computerData);
 
-        val data = this.tokenComputers.get(token);
+        @NonNull val data = this.tokenComputers.get(token);
 
         data.setCpu(computerData.getCpu());
         data.setGpu(computerData.getGpu());
