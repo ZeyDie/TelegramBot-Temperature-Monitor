@@ -40,6 +40,19 @@ public final class AddButton extends KeyboardButton {
         else
             event.setCancelled(true);
 
+        if (
+                TemperatureMonitorBot.getInstance()
+                        .getTokenModule()
+                        .getRegisteredTokens(senderId)
+                        .size() >= ConfigStore.monitorConfig.getMaxMonitoringsUsers() + 1
+        ) {
+            SendMessageUtil.sendMessage(
+                    senderId,
+                    LanguageUtil.localize(senderId, "messages.settings.add.registered.max_monitorings")
+            );
+            return;
+        }
+
         if (!ComputerRegistry.isRegistry(senderId)) {
             ComputerRegistry.registry(senderId);
             SendMessageUtil.sendMessage(
@@ -60,14 +73,6 @@ public final class AddButton extends KeyboardButton {
 
             @NonNull val tokenModule = TemperatureMonitorBot.getInstance().getTokenModule();
             @NonNull val encryptedToken = TokenUtil.encryptToken(data, senderId);
-
-            if (tokenModule.getRegisteredTokens(senderId).size() >= ConfigStore.monitorConfig.getMaxMonitorsUsers() + 1) {
-                SendMessageUtil.sendMessage(
-                        senderId,
-                        LanguageUtil.localize(senderId, "messages.settings.add.registered.max_monitors")
-                );
-                return;
-            }
 
             if (tokenModule.isRegistered(senderId, encryptedToken)) {
                 SendMessageUtil.sendMessage(

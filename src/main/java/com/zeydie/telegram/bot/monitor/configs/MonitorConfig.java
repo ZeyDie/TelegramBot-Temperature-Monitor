@@ -8,5 +8,5 @@ import org.jetbrains.annotations.NotNull;
 public final class MonitorConfig {
     private @NotNull String encryptionKey = RandomStringUtils.secureStrong().nextAlphabetic(8, 16);
 
-    private int maxMonitorsUsers = 3;
+    private int maxMonitoringsUsers = 3;
 }
