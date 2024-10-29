@@ -47,15 +47,17 @@ public final class TemperaturesButton extends KeyboardButton {
                             if (computerData == null)
                                 return;
 
+                            @Nullable val token = computerData.getToken();
+
+                            if (token == null)
+                                return;
+
                             @Nullable val cpu = computerData.getCpu();
                             @Nullable val gpu = computerData.getGpu();
 
                             stringBuilder.append("==========||==========").append("\n");
 
-                            stringBuilder.append("Computer: ").append(
-                                    TokenUtil.decryptToken(computerData.getToken())
-                                            .getName()
-                            ).append("\n").append("\n");
+                            stringBuilder.append("Computer: ").append(TokenUtil.decryptToken(token).getName()).append("\n").append("\n");
 
                             if (cpu != null) {
                                 stringBuilder.append("CPU:").append("\n");
