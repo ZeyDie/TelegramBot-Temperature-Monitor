@@ -23,7 +23,11 @@ public class ComputerImpl implements IComputer {
 
     @Override
     public @Nullable ComputerData getComputerData(@NonNull final ComputerData computerData) {
-        return this.getComputerData(computerData.getToken());
+        @Nullable val token = computerData.getToken();
+
+        if (token == null) return null;
+
+        return this.getComputerData(token);
     }
 
     @Override
@@ -33,15 +37,17 @@ public class ComputerImpl implements IComputer {
 
     @Override
     public void addComputerData(@NonNull final ComputerData computerData) {
-        @NonNull val token = computerData.getToken();
+        @Nullable val token = computerData.getToken();
 
-        if (!this.tokenComputers.containsKey(token))
+        if (token != null && !this.tokenComputers.containsKey(token))
             this.tokenComputers.put(token, computerData);
     }
 
     @Override
     public void updateComputerData(@NonNull final ComputerData computerData) {
-        @NonNull val token = computerData.getToken();
+        @Nullable val token = computerData.getToken();
+
+        if (token == null) return;
 
         this.addComputerData(computerData);
 
@@ -53,7 +59,11 @@ public class ComputerImpl implements IComputer {
 
     @Override
     public void removeComputerData(@NonNull final ComputerData computerData) {
-        this.removeComputerData(computerData.getToken());
+        @Nullable val token = computerData.getToken();
+
+        if (token == null) return;
+
+        this.removeComputerData(token);
     }
 
     @Override
