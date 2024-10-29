@@ -2,11 +2,13 @@ package com.zeydie.telegram.bot.monitor;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.google.common.util.concurrent.AbstractScheduledService;
+import com.google.common.util.concurrent.Service;
 import com.sun.net.httpserver.HttpServer;
-import com.zeydie.telegram.bot.monitor.api.modules.temperature.IComputer;
+import com.zeydie.telegram.bot.monitor.api.modules.computer.IComputer;
 import com.zeydie.telegram.bot.monitor.api.modules.token.IToken;
 import com.zeydie.telegram.bot.monitor.api.v1.handlers.TemperatureHttpHandlerV1;
-import com.zeydie.telegram.bot.monitor.modules.temperature.ComputerImpl;
+import com.zeydie.telegram.bot.monitor.modules.computer.ComputerImpl;
 import com.zeydie.telegram.bot.monitor.modules.token.TokenImpl;
 import com.zeydie.telegrambot.TelegramBotCore;
 import com.zeydie.telegrambot.api.modules.interfaces.ISubcore;
@@ -20,6 +22,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public final class TemperatureMonitorBot implements ISubcore {
     @Getter
@@ -29,9 +33,21 @@ public final class TemperatureMonitorBot implements ISubcore {
     private static final @NotNull TelegramBotCore telegramBotCore = TelegramBotCore.getInstance();
 
     @Getter
-    private final @NotNull IToken tokenModule = new TokenImpl();
+    private IToken tokenModule;
     @Getter
-    private final @NotNull IComputer temperatureModule = new ComputerImpl();
+    private IComputer computerModule;
+
+    private final @NotNull Service saveScheduler = new AbstractScheduledService() {
+        @Override
+        protected void runOneIteration() throws Exception {
+            CompletableFuture.runAsync(tokenModule::save);
+        }
+
+        @Override
+        protected @NotNull Scheduler scheduler() {
+            return Scheduler.newFixedRateSchedule(0, 1, TimeUnit.MINUTES);
+        }
+    };
 
     @SneakyThrows
     public static void main(@Nullable final String[] args) {
@@ -51,7 +67,7 @@ public final class TemperatureMonitorBot implements ISubcore {
 
     @NonFinal
     @Parameter(names = {"-p", "-port"}, description = "Port for HTTP server")
-    private int port = 3666;
+    private int port = 8100;
 
     @Override
     public void launch(@Nullable final String[] strings) {
@@ -59,6 +75,9 @@ public final class TemperatureMonitorBot implements ISubcore {
                 .addObject(instance)
                 .build()
                 .parse(strings);
+
+        this.tokenModule = new TokenImpl();
+        this.computerModule = new ComputerImpl();
     }
 
     @Override
@@ -80,6 +99,8 @@ public final class TemperatureMonitorBot implements ISubcore {
     @Override
     public void postInit() {
         this.tokenModule.postInit();
+
+        this.saveScheduler.startAsync();
 
         @NonNull val httpServer = HttpServer.create(new InetSocketAddress(this.port), 0);
 

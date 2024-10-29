@@ -45,7 +45,7 @@ public class TokenImpl implements IToken {
                                 if (tokenDatas.length <= 0) FileUtil.deleteFile(file);
                                 else {
                                     LoggerUtil.info("User {} restored {}", userId, tokenDatas);
-                                    this.usersTokens.put(userId, Arrays.asList(tokenDatas));
+                                    this.usersTokens.put(userId, Lists.newArrayList(tokenDatas));
                                 }
                             } catch (final Exception exception) {
                                 exception.printStackTrace(System.out);

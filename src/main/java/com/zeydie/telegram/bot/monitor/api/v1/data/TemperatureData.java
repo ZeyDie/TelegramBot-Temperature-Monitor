@@ -1,8 +1,6 @@
 package com.zeydie.telegram.bot.monitor.api.v1.data;
 
 import lombok.Data;
-import lombok.NonNull;
-import org.jetbrains.annotations.NotNull;
 
 @Data
 public class TemperatureData {
@@ -10,19 +8,15 @@ public class TemperatureData {
     private String avg;
     private String max;
 
-    public double getMinDouble() {
-        return Double.parseDouble(this.toDoubleString(this.min));
+    public int getMinInt() {
+        return Integer.parseInt(this.min);
     }
 
-    public double getAvgDouble() {
-        return Double.parseDouble(this.toDoubleString(this.avg));
+    public int getAvgInt() {
+        return Integer.parseInt(this.avg);
     }
 
-    public double getMaxDouble() {
-        return Double.parseDouble(this.toDoubleString(this.max));
-    }
-
-    private @NotNull String toDoubleString(@NonNull final String value) {
-        return value.replace(",", ".");
+    public int getMaxInt() {
+        return Integer.parseInt(this.max);
     }
 }

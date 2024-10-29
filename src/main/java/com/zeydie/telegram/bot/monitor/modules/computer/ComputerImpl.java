@@ -1,6 +1,6 @@
-package com.zeydie.telegram.bot.monitor.modules.temperature;
+package com.zeydie.telegram.bot.monitor.modules.computer;
 
-import com.zeydie.telegram.bot.monitor.api.modules.temperature.IComputer;
+import com.zeydie.telegram.bot.monitor.api.modules.computer.IComputer;
 import com.zeydie.telegram.bot.monitor.api.v1.data.ComputerData;
 import lombok.NonNull;
 import lombok.val;
@@ -19,6 +19,11 @@ public class ComputerImpl implements IComputer {
         return this.tokenComputers.values()
                 .stream()
                 .toList();
+    }
+
+    @Override
+    public @Nullable ComputerData getComputerData(@NonNull final ComputerData computerData) {
+        return this.getComputerData(computerData.getToken());
     }
 
     @Override
@@ -44,6 +49,11 @@ public class ComputerImpl implements IComputer {
 
         data.setCpu(computerData.getCpu());
         data.setGpu(computerData.getGpu());
+    }
+
+    @Override
+    public void removeComputerData(@NonNull final ComputerData computerData) {
+        this.removeComputerData(computerData.getToken());
     }
 
     @Override

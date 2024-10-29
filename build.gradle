@@ -25,7 +25,7 @@ tasks.withType(JavaExec).configureEach {
 
 
 group 'com.zeydie'
-version '0.1-7.9-0.3.4R'
+version '1.0-7.9-0.3.6R'
 
 repositories {
     mavenCentral()
@@ -50,15 +50,18 @@ dependencies {
     annotationProcessor group: 'org.atteo.classindex', name: 'classindex', version: '3.13'
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    implementation group: 'com.google.code.gson', name: 'gson', version: '2.11.0'
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.11.+'
     // https://mvnrepository.com/artifact/com.google.guava/guava
     implementation group: 'com.google.guava', name: 'guava', version: '33.1.+'
 
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.17.+'
+
     // https://mvnrepository.com/artifact/org.jcommander/jcommander
-    implementation group: 'org.jcommander', name: 'jcommander', version: '2.0'
+    implementation group: 'org.jcommander', name: 'jcommander', version: '2.+'
 
     // https://mvnrepository.com/artifact/org.jasypt/jasypt
-    implementation group: 'org.jasypt', name: 'jasypt', version: '1.9.3'
+    implementation group: 'org.jasypt', name: 'jasypt', version: '1.9.+'
 
     // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.24.+'
@@ -100,7 +103,8 @@ jar {
 
     manifest {
         attributes(
-                "Class-Path": configurations.runtimeClasspath.collect { "$librariesFolder/" + it.getName() }.join(' ')
+                "Class-Path": configurations.runtimeClasspath.collect { "$librariesFolder/" + it.getName() }.join(' '),
+                "Main-Class": "com.zeydie.telegram.bot.monitor.TemperatureMonitorBot"
         )
     }
 }

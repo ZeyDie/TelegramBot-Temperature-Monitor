@@ -7,6 +7,7 @@ import com.zeydie.telegram.bot.monitor.TemperatureMonitorBot;
 import com.zeydie.telegram.bot.monitor.api.util.HttpExchangeUtil;
 import com.zeydie.telegram.bot.monitor.api.util.TokenUtil;
 import com.zeydie.telegram.bot.monitor.api.v1.data.ComputerData;
+import com.zeydie.telegrambot.api.utils.LoggerUtil;
 import lombok.NonNull;
 import lombok.val;
 
@@ -21,20 +22,19 @@ public final class TemperatureHttpHandlerV1 implements HttpHandler {
 
             @NonNull val token = computerData.getToken();
 
-            //if (!token.isEmpty()) {
-            computerData.setToken("test");
-                //LoggerUtil.debug(SGsonBase.create().fromObjectToJson(computerData));
+            @NonNull val instance = TemperatureMonitorBot.getInstance();
+            @NonNull val tokenModule = instance.getTokenModule();
+            @NonNull val computerModule = instance.getComputerModule();
 
-                @NonNull val instance = TemperatureMonitorBot.getInstance();
+            @NonNull val encryptedData = TokenUtil.decryptToken(token);
 
-                @NonNull val encryptedData = TokenUtil.decryptToken(computerData.getToken());
+            if (tokenModule.isRegistered(encryptedData.getChatId(), token)) {
+                LoggerUtil.debug(SGsonBase.create().fromObjectToJson(computerData));
 
-                //if (instance.getTokenModule().isRegistered(encryptedData.getChatId(), token))
-            instance.getTemperatureModule().addComputerData(computerData);
-                    instance.getTemperatureModule().updateComputerData(computerData);
-            //}
+                computerModule.updateComputerData(computerData);
+            }
+
+            httpExchange.sendResponseHeaders(200, -1);
         }
-
-        httpExchange.sendResponseHeaders(200, -1);
     }
 }
