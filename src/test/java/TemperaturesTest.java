@@ -17,7 +17,8 @@ public class TemperaturesTest {
     private static final ComputerData computerData = new ComputerData(
             "test",
             new TemperatureData(),
-            new TemperatureData()
+            new TemperatureData(),
+            0
     );
 
     @BeforeAll
