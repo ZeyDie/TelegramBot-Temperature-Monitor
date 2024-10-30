@@ -13,6 +13,8 @@ public final class SettingsKeyboard extends UserKeyboardImpl {
     private static final @NotNull SettingsKeyboard instance = new SettingsKeyboard();
 
     public SettingsKeyboard() {
+        super("keyboard.settings");
+
         this.minimizeButtons(true);
 
         this.addButton(new ListButton());
@@ -21,9 +23,5 @@ public final class SettingsKeyboard extends UserKeyboardImpl {
         this.addButton(new DeleteButton());
         this.completeRow();
         this.addButton(new MenuButton());
-    }
-
-    public void sendKeyboard(final long chatId) {
-        this.sendKeyboard(chatId, "keyboard.settings");
     }
 }

@@ -13,6 +13,8 @@ import lombok.SneakyThrows;
 import lombok.val;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.SimpleDateFormat;
+
 @EventSubscribesRegister
 public final class TemperaturesButton extends KeyboardButton {
     private final @NonNull String data;
@@ -54,34 +56,62 @@ public final class TemperaturesButton extends KeyboardButton {
 
                             @Nullable val cpu = computerData.getCpu();
                             @Nullable val gpu = computerData.getGpu();
+                            val timestamp = computerData.getLastUpdateTimestamp();
 
                             stringBuilder.append("==========||==========").append("\n");
 
-                            stringBuilder.append("Computer: ").append(TokenUtil.decryptToken(token).getName()).append("\n").append("\n");
+                            stringBuilder.append("Computer: ")
+                                    .append(TokenUtil.decryptToken(token).getName())
+                                    .append("\n")
+                                    .append("\n");
 
                             if (cpu != null) {
-                                stringBuilder.append("CPU:").append("\n");
+                                stringBuilder.append("CPU:")
+                                        .append("\n");
 
                                 if (cpu.getMinInt() > 0)
-                                    stringBuilder.append("  Min: ").append(cpu.getMinInt()).append("℃").append("\n");
+                                    stringBuilder.append("  Min: ")
+                                            .append(cpu.getMinInt())
+                                            .append("℃")
+                                            .append("\n");
                                 if (cpu.getAvgInt() > 0)
-                                    stringBuilder.append("  AVG: ").append(cpu.getAvgInt()).append("℃").append("\n");
+                                    stringBuilder.append("  AVG: ")
+                                            .append(cpu.getAvgInt())
+                                            .append("℃")
+                                            .append("\n");
                                 if (cpu.getMaxInt() > 0)
-                                    stringBuilder.append("  Max: ").append(cpu.getMaxInt()).append("℃").append("\n");
+                                    stringBuilder.append("  Max: ")
+                                            .append(cpu.getMaxInt())
+                                            .append("℃")
+                                            .append("\n");
 
                                 stringBuilder.append("\n");
                             }
 
                             if (gpu != null) {
-                                stringBuilder.append("GPU:").append("\n");
+                                stringBuilder.append("GPU:")
+                                        .append("\n");
 
                                 if (gpu.getMinInt() > 0)
-                                    stringBuilder.append("  Min: ").append(gpu.getMinInt()).append("℃").append("\n");
+                                    stringBuilder.append("  Min: ")
+                                            .append(gpu.getMinInt())
+                                            .append("℃")
+                                            .append("\n");
                                 if (gpu.getAvgInt() > 0)
-                                    stringBuilder.append("  AVG: ").append(gpu.getAvgInt()).append("℃").append("\n");
+                                    stringBuilder.append("  AVG: ")
+                                            .append(gpu.getAvgInt())
+                                            .append("℃")
+                                            .append("\n");
                                 if (gpu.getMaxInt() > 0)
-                                    stringBuilder.append("  Max: ").append(gpu.getMaxInt()).append("℃").append("\n");
+                                    stringBuilder.append("  Max: ")
+                                            .append(gpu.getMaxInt())
+                                            .append("℃")
+                                            .append("\n");
                             }
+
+                            stringBuilder.append("\n")
+                                    .append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp))
+                                    .append("\n");
 
                             stringBuilder.append("==========||==========");
 

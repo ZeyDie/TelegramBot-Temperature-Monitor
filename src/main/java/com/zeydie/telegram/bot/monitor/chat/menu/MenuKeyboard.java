@@ -11,13 +11,11 @@ public final class MenuKeyboard extends UserKeyboardImpl {
     private static final @NotNull MenuKeyboard instance = new MenuKeyboard();
 
     public MenuKeyboard() {
+        super("keyboard.main_menu");
+
         this.minimizeButtons(true);
 
         this.addButton(new TemperaturesButton());
         this.addButton(new SettingsButton());
-    }
-
-    public void sendKeyboard(final long chatId) {
-        this.sendKeyboard(chatId, "keyboard.menu");
     }
 }

@@ -55,6 +55,7 @@ public class ComputerImpl implements IComputer {
 
         data.setCpu(computerData.getCpu());
         data.setGpu(computerData.getGpu());
+        data.setLastUpdateTimestamp(System.currentTimeMillis());
     }
 
     @Override

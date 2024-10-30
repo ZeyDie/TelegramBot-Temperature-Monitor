@@ -13,4 +13,6 @@ public class ComputerData {
 
     private @Nullable TemperatureData cpu;
     private @Nullable TemperatureData gpu;
+
+    private long lastUpdateTimestamp;
 }

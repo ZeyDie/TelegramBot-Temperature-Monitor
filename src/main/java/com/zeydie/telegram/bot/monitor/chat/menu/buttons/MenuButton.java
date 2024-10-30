@@ -16,7 +16,7 @@ public final class MenuButton extends KeyboardButton {
     private final @NonNull String data;
 
     public MenuButton() {
-        this("buttons.menu");
+        this("keyboard.main_menu");
     }
 
     public MenuButton(@NonNull final String text) {

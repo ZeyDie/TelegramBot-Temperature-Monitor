@@ -10,6 +10,7 @@ import lombok.SneakyThrows;
 import lombok.val;
 import org.jetbrains.annotations.Nullable;
 
+//TODO
 @EventSubscribesRegister
 public final class InviteButton extends KeyboardButton {
     private final @NonNull String data;
