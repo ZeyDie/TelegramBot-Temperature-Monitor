@@ -8,6 +8,7 @@ import com.sun.net.httpserver.HttpServer;
 import com.zeydie.telegram.bot.monitor.api.modules.computer.IComputer;
 import com.zeydie.telegram.bot.monitor.api.modules.token.IToken;
 import com.zeydie.telegram.bot.monitor.api.v1.handlers.TemperatureHttpHandlerV1;
+import com.zeydie.telegram.bot.monitor.api.v2.handlers.TemperatureHttpHandlerV2;
 import com.zeydie.telegram.bot.monitor.modules.computer.ComputerImpl;
 import com.zeydie.telegram.bot.monitor.modules.token.TokenImpl;
 import com.zeydie.telegrambot.TelegramBotCore;
@@ -105,6 +106,7 @@ public final class TemperatureMonitorBot implements ISubcore {
         @NonNull val httpServer = HttpServer.create(new InetSocketAddress(this.port), 0);
 
         httpServer.createContext("/api/v1/temperature", new TemperatureHttpHandlerV1());
+        httpServer.createContext("/api/v2/temperature", new TemperatureHttpHandlerV2());
         httpServer.start();
 
         LoggerUtil.warn("HTTP server started on port {}", this.port);

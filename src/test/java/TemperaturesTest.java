@@ -1,7 +1,7 @@
 import com.zeydie.telegram.bot.monitor.TemperatureMonitorBot;
 import com.zeydie.telegram.bot.monitor.api.modules.computer.IComputer;
-import com.zeydie.telegram.bot.monitor.api.v1.data.ComputerData;
-import com.zeydie.telegram.bot.monitor.api.v1.data.TemperatureData;
+import com.zeydie.telegram.bot.monitor.api.v2.data.ComputerData;
+import com.zeydie.telegram.bot.monitor.api.v2.data.TemperatureData;
 import com.zeydie.telegrambot.configs.ConfigStore;
 import com.zeydie.telegrambot.configs.data.BotConfig;
 import lombok.SneakyThrows;

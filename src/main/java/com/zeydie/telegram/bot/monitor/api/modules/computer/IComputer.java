@@ -1,6 +1,6 @@
 package com.zeydie.telegram.bot.monitor.api.modules.computer;
 
-import com.zeydie.telegram.bot.monitor.api.v1.data.ComputerData;
+import com.zeydie.telegram.bot.monitor.api.v2.data.ComputerData;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

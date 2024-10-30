@@ -16,10 +16,29 @@ import java.text.SimpleDateFormat;
 public final class TemperatureCommand {
     @CommandEventSubscribe(commands = "/temperature")
     public void temperature(final @NonNull CommandEvent event) {
-        TemperatureMonitorBot.getInstance()
-                .getComputerModule()
-                .getComputersData()
-                .forEach(
+        @NonNull val sender = event.getSender();
+
+        try (
+                @NonNull val stream = TemperatureMonitorBot.getInstance()
+                        .getComputerModule()
+                        .getComputersData()
+                        .stream()
+        ) {
+            @NonNull val filtered = stream.filter(
+                    computerData -> {
+                        @Nullable val token = computerData.getToken();
+
+                        return computerData != null && token != null && TokenUtil.decryptToken(token).getChatId() == sender.id();
+                    }
+            ).toList();
+
+            if (filtered.isEmpty())
+                SendMessageUtil.sendMessage(
+                        sender,
+                        "messages.temperatures.empty"
+                );
+            else
+                filtered.forEach(
                         computerData -> {
                             if (computerData == null)
                                 return;
@@ -36,67 +55,56 @@ public final class TemperatureCommand {
                             @NonNull val stringBuilder = new StringBuilder();
 
                             stringBuilder.append("==========||==========").append("\n");
-
                             stringBuilder.append("Computer: ")
                                     .append(TokenUtil.decryptToken(token).getName())
                                     .append("\n")
                                     .append("\n");
 
                             if (cpu != null) {
-                                stringBuilder.append("CPU:")
-                                        .append("\n");
+                                @NonNull val cpuHardwares = cpu.getHardwares();
 
-                                if (cpu.getMinInt() > 0)
-                                    stringBuilder.append("  Min: ")
-                                            .append(cpu.getMinInt())
-                                            .append("℃")
-                                            .append("\n");
-                                if (cpu.getAvgInt() > 0)
-                                    stringBuilder.append("  AVG: ")
-                                            .append(cpu.getAvgInt())
-                                            .append("℃")
-                                            .append("\n");
-                                if (cpu.getMaxInt() > 0)
-                                    stringBuilder.append("  Max: ")
-                                            .append(cpu.getMaxInt())
-                                            .append("℃")
+                                if (!cpuHardwares.isEmpty()) {
+                                    stringBuilder.append("CPU:")
                                             .append("\n");
 
-                                stringBuilder.append("\n");
+                                    cpuHardwares.forEach(
+                                            (name, value) -> stringBuilder.append(String.format("  %s: ", name))
+                                                    .append(value)
+                                                    .append("℃")
+                                                    .append("\n")
+                                    );
+
+                                    stringBuilder.append("\n");
+                                }
                             }
 
                             if (gpu != null) {
-                                stringBuilder.append("GPU:")
-                                        .append("\n");
+                                @NonNull val gpuHardwares = gpu.getHardwares();
 
-                                if (gpu.getMinInt() > 0)
-                                    stringBuilder.append("  Min: ")
-                                            .append(gpu.getMinInt())
-                                            .append("℃")
+                                if (!gpuHardwares.isEmpty()) {
+                                    stringBuilder.append("GPU:")
                                             .append("\n");
-                                if (gpu.getAvgInt() > 0)
-                                    stringBuilder.append("  AVG: ")
-                                            .append(gpu.getAvgInt())
-                                            .append("℃")
-                                            .append("\n");
-                                if (gpu.getMaxInt() > 0)
-                                    stringBuilder.append("  Max: ")
-                                            .append(gpu.getMaxInt())
-                                            .append("℃")
-                                            .append("\n");
+
+                                    gpuHardwares.forEach(
+                                            (name, value) -> stringBuilder.append(String.format("  %s: ", name))
+                                                    .append(value)
+                                                    .append("℃")
+                                                    .append("\n")
+                                    );
+
+                                    stringBuilder.append("\n");
+                                }
                             }
 
-                            stringBuilder.append("\n")
-                                    .append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp))
-                                    .append("\n");
-
+                            stringBuilder.append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp)).append("\n");
                             stringBuilder.append("==========||==========");
 
                             SendMessageUtil.sendMessage(
-                                    event.getSender(),
+                                    sender,
                                     stringBuilder.toString()
                             );
                         }
                 );
+        }
     }
 }
