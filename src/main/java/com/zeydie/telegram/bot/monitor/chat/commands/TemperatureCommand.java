@@ -1,46 +1,21 @@
-package com.zeydie.telegram.bot.monitor.chat.menu.buttons;
+package com.zeydie.telegram.bot.monitor.chat.commands;
 
-import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.zeydie.telegram.bot.monitor.TemperatureMonitorBot;
 import com.zeydie.telegram.bot.monitor.api.util.TokenUtil;
-import com.zeydie.telegrambot.api.telegram.events.MessageEvent;
+import com.zeydie.telegrambot.api.telegram.events.CommandEvent;
+import com.zeydie.telegrambot.api.telegram.events.subscribes.CommandEventSubscribe;
 import com.zeydie.telegrambot.api.telegram.events.subscribes.EventSubscribesRegister;
-import com.zeydie.telegrambot.api.telegram.events.subscribes.MessageEventSubscribe;
-import com.zeydie.telegrambot.api.utils.LanguageUtil;
 import com.zeydie.telegrambot.api.utils.SendMessageUtil;
 import lombok.NonNull;
-import lombok.SneakyThrows;
 import lombok.val;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.SimpleDateFormat;
 
 @EventSubscribesRegister
-public final class TemperaturesButton extends KeyboardButton {
-    private final @NonNull String data;
-
-    public TemperaturesButton() {
-        this("buttons.temperatures");
-    }
-
-    public TemperaturesButton(@NonNull final String text) {
-        super(text);
-
-        this.data = text;
-    }
-
-    @SneakyThrows
-    @MessageEventSubscribe
-    public void temperatures(@NonNull final MessageEvent event) {
-        val senderId = event.getSender().id();
-        @Nullable val data = event.getMessage().text();
-
-        if (data == null || !data.equals(LanguageUtil.localize(senderId, this.data))) return;
-        else
-            event.setCancelled(true);
-
-        @NonNull val stringBuilder = new StringBuilder();
-
+public final class TemperatureCommand {
+    @CommandEventSubscribe(commands = "/temperature")
+    public void temperature(final @NonNull CommandEvent event) {
         TemperatureMonitorBot.getInstance()
                 .getComputerModule()
                 .getComputersData()
@@ -57,6 +32,8 @@ public final class TemperaturesButton extends KeyboardButton {
                             @Nullable val cpu = computerData.getCpu();
                             @Nullable val gpu = computerData.getGpu();
                             val timestamp = computerData.getLastUpdateTimestamp();
+
+                            @NonNull val stringBuilder = new StringBuilder();
 
                             stringBuilder.append("==========||==========").append("\n");
 
@@ -115,7 +92,10 @@ public final class TemperaturesButton extends KeyboardButton {
 
                             stringBuilder.append("==========||==========");
 
-                            SendMessageUtil.sendMessage(senderId, stringBuilder.toString());
+                            SendMessageUtil.sendMessage(
+                                    event.getSender(),
+                                    stringBuilder.toString()
+                            );
                         }
                 );
     }

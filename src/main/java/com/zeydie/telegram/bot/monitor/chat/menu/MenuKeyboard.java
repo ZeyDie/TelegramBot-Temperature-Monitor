@@ -1,7 +1,6 @@
 package com.zeydie.telegram.bot.monitor.chat.menu;
 
 import com.zeydie.telegram.bot.monitor.chat.menu.buttons.SettingsButton;
-import com.zeydie.telegram.bot.monitor.chat.menu.buttons.TemperaturesButton;
 import com.zeydie.telegrambot.modules.keyboard.impl.UserKeyboardImpl;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +14,6 @@ public final class MenuKeyboard extends UserKeyboardImpl {
 
         this.minimizeButtons(true);
 
-        this.addButton(new TemperaturesButton());
         this.addButton(new SettingsButton());
     }
 }
