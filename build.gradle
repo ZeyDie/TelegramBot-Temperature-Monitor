@@ -86,7 +86,7 @@ dependencies {
     testImplementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.17.+'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.+'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.+'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.12.+'
 }
 
 jar {
